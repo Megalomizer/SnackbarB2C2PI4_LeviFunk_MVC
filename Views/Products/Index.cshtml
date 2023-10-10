@@ -1,0 +1,67 @@
+﻿@using SnackbarB2C2PI4_LeviFunk_ClassLibrary
+@model IEnumerable<Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="CenteredTitle">Menu</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Discount)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Stock)
+            </th>
+
+            <th></th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    <img src="~/images/@item.ImgPath" class="tableImg"/>
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Discount)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock)
+                </td>
+
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>

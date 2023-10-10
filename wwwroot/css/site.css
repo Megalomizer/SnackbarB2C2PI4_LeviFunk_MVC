@@ -1,0 +1,76 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+#footerLocation {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 1em;
+    height: 4em;
+    background-color: #FFFFFF;
+}
+
+.formControlButtons {
+    width: 100%;
+    height: fit-content;
+}
+
+.flex-parent-element {
+    display: flex;
+}
+
+.flex-child-element {
+    flex: 1;
+    margin: 10px;
+    width: 50%;
+}
+
+.flex-child-element:first-child{
+    margin-right: 20px;
+}
+
+.ListElement {
+    padding-bottom: 10px;
+}
+
+#Description {
+    width: 100%;
+    height: fit-content;
+    max-height: 300px;
+}
+
+.ImgContainer {
+    border: solid;
+    border-color: #000000;
+}
+
+.tableImg {
+    max-height: 100px;
+    max-width: 100px;
+}
+
+.CenteredTitle {
+    width: 100%;
+    text-align:center;
+}

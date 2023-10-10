@@ -1,0 +1,65 @@
+﻿@using SnackbarB2C2PI4_LeviFunk_ClassLibrary
+@model Product
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>@Model.Name</h1>
+
+<div class="flex-parent-element">    
+    <div class="flex-child-element">
+
+        <div class="ListElement">
+
+            <h3>
+                Description:
+            </h3>
+            <p class="lead" id="Description">
+                @Model.Description
+            </p>
+
+        </div>
+
+        <div class="ListElement">
+            <h3>
+                Price:
+            </h3>
+            <p class="lead">
+                €@Model.Price
+            </p>
+        </div>
+
+        <div class="ListElement">
+            <h5>
+                In stock:
+            </h5>
+            <p class="text-primary-emphasis">
+                @Model.Stock
+            </p>
+        </div>
+
+        <div class="ListElement">
+            <h5>
+                Discount:
+            </h5>
+            <p class="text-primary-emphasis">
+                @Model.Discount
+            </p>
+        </div>
+
+    </div>
+
+    <div class="flex-child-element">
+
+        <div>
+            <img src="~/images/@Model.ImgPath" alt="Stock_Photo" />
+        </div>
+
+    </div>
+    
+</div>
+
+<div class="formControlButtons">
+    <a asp-controller="Products" asp-action="Index" type="button" class="btn btn-primary">Back</a>
+</div>
