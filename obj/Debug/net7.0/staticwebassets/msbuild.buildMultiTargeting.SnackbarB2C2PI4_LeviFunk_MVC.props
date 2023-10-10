@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\SnackbarB2C2PI4_LeviFunk_MVC.props" />
+</Project>
