@@ -1,0 +1,52 @@
+﻿@model CustomersVMIndex
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit your profile!</h1>
+<hr/>
+<h4 class="text-info-emphasis">
+    You can change your password and email by pressing your name or email in the top right corner
+</h4>
+<small>@Model.Customer.Email</small>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-controller="Customers" asp-action="Edit" asp-route-id="@Model.Customer.Id">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Customer.Id" />
+            <input type="hidden" asp-for="Customer.AuthenticationId" />
+            <input type="hidden" asp-for="Customer.Email" />
+
+            <div class="form-group">
+                <label class="col-form-label mt-4" asp-for="Customer.FirstName">Firstname</label>
+                <input type="text" class="form-control" id="inputDefault" asp-for="Customer.FirstName" placeholder="@Model.Customer.FirstName">
+                <span asp-validation-for="Customer.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label mt-4" asp-for="Customer.LastName">Lastname</label>
+                <input type="text" class="form-control" id="inputDefault" asp-for="Customer.LastName" placeholder="@Model.Customer.LastName">
+                <span asp-validation-for="Customer.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label mt-4" asp-for="Customer.Phone">Phonenumber</label>
+                <input type="text" class="form-control" id="inputDefault" asp-for="Customer.Phone" placeholder="@Model.Customer.Phone">
+                <span asp-validation-for="Customer.Phone" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" id="buttonLower">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-primary" id="buttonLower">Cancel</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

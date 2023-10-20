@@ -119,6 +119,19 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Data
             HttpResponseMessage response = await _client.DeleteAsync("Api/Products/" + id.ToString());
         }
 
+        /// <summary>
+        /// Check if a product already exists
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> DoesProductExist(int id)
+        {
+            Product product = null;
+            product = await GetProduct(id);
+            if (product == null)
+                return false;
+            return true;
+        }
+
         #endregion
 
         #region Order CRUD
@@ -177,26 +190,31 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Data
         /// <param name="order"></param>
         public async Task<HttpResponseMessage> CreateOrder(Order order)
         {
-            var orderJson = order.ToJson();
-            HttpContent content = new StringContent(orderJson, Encoding.UTF8, "application/json");
+            // Convert Object to Json
+            var jsonObject = JsonConvert.SerializeObject(order);
+            
+            // Create an Content-object with the Json data
+            HttpContent content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _client.PostAsync("api/Orders/", content);
+            HttpResponseMessage response = await _client.PostAsync("api/Orders", content);
 
             return response;
         }
 
         /// <summary>
-        /// Update an order
+        /// Update an order but not the products
         /// </summary>
         /// <param name="product"></param>
         /// <returns></returns>
         public async Task<Order> UpdateOrder(Order order, int id)
         {
+            // Update order
             var orderJson = order.ToJson();
             HttpContent content = new StringContent(orderJson, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await _client.PutAsync("api/Orders/" + id.ToString(), content);
 
+            // return the updated order
             Order o = null;
 
             if (response.IsSuccessStatusCode)
@@ -223,6 +241,19 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Data
         public async Task DeleteOrder(int id)
         {
             await _client.DeleteAsync("Api/Orders/" + id.ToString());
+        }
+
+        /// <summary>
+        /// Check if an owner already exists
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> DoesOrderExist(int id)
+        {
+            Owner owner = null;
+            owner = await GetOwner(id);
+            if (owner == null)
+                return false;
+            return true;
         }
 
         #endregion
@@ -352,6 +383,18 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Data
             await _client.DeleteAsync("Api/OrderProducts/" + orderId.ToString() + "/" + productId.ToString());
         }
 
+        /// <summary>
+        /// Check if an orderproduct already exists
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> DoesOrderProductExist(int id)
+        {
+            Order order = null;
+            order = await GetOrder(id);
+            if (order == null)
+                return false;
+            return true;
+        }
 
         #endregion
 
@@ -411,10 +454,10 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Data
         /// <param name="transaction"></param>
         public async Task<HttpResponseMessage> CreateTransaction(Transaction transaction)
         {
-            var transactionJson = transaction.ToJson();
+            var transactionJson = JsonConvert.SerializeObject(transaction);
             HttpContent content = new StringContent(transactionJson, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _client.PostAsync("api/Transactions/", content);
+            HttpResponseMessage response = await _client.PostAsync("api/Transactions", content);
 
             return response;
         }
@@ -458,6 +501,19 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Data
         {
             await _client.DeleteAsync("Api/Transactions/" + id.ToString());
         }
+        
+        /// <summary>
+         /// Check if the transaction already exists
+         /// </summary>
+         /// <returns></returns>
+        public async Task<bool> DoesTransactionExist(int id)
+        {
+            Transaction transaction = null;
+            transaction = await GetTransaction(id);
+            if (transaction == null)
+                return false;
+            return true;
+        }
 
         #endregion
 
@@ -489,15 +545,38 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Data
         }
 
         /// <summary>
+        /// Get a specific customer based on authentication Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Customer</returns>
+        public async Task<Customer> GetCustomer(string? id)
+        {
+            Customer? customer = null;
+
+            HttpResponseMessage response = await _client.GetAsync("api/Customers/Authentication/" + id);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var JsonResponseResult = response.Content.ReadAsStringAsync().Result;
+                customer = JsonConvert.DeserializeObject<Customer>(JsonResponseResult);
+            }
+
+            if (customer == null)
+                customer = new Customer();
+
+            return customer;
+        }
+
+        /// <summary>
         /// Get a specific customer based on Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Customer</returns>
-        public async Task<Customer> GetCustomer(int? id)
+        public async Task<Customer> GetCustomer(int id)
         {
             Customer? customer = null;
 
-            HttpResponseMessage response = await _client.GetAsync("api/Customers/" + id.ToString());
+            HttpResponseMessage response = await _client.GetAsync("api/Customers/" + id);
 
             if (response.IsSuccessStatusCode)
             {
@@ -541,7 +620,7 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Data
 
             if (response.IsSuccessStatusCode)
             {
-                HttpResponseMessage getResponse = await _client.GetAsync("api/Customers/" + customer.Id.ToString());
+                HttpResponseMessage getResponse = await _client.GetAsync("api/Customers/" + customer.Id);
 
                 if (getResponse.IsSuccessStatusCode)
                 {
@@ -557,12 +636,34 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Data
         }
 
         /// <summary>
+        /// Delete an customer based on AuthenticationId
+        /// </summary>
+        /// <param name="customer"></param>
+        public async Task DeleteCustomer(string id)
+        {
+            await _client.DeleteAsync("Api/Customers/Authentication/" + id);
+        }
+
+        /// <summary>
         /// Delete an customer based on CustomerId
         /// </summary>
         /// <param name="customer"></param>
         public async Task DeleteCustomer(int id)
         {
             await _client.DeleteAsync("Api/Customers/" + id.ToString());
+        }
+
+        /// <summary>
+        /// Check if a customer already exists
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> DoesCustomerExist(int id)
+        {
+            Customer customer = null;
+            customer = await GetCustomer(id);
+            if (customer == null)
+                return false;
+            return true;
         }
 
         #endregion
@@ -669,6 +770,19 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Data
         public async Task DeleteOwner(int id)
         {
             await _client.DeleteAsync("Api/Owners/" + id.ToString());
+        }
+
+        /// <summary>
+        /// Check if an owner already exists
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> DoesOwnerExist(int id)
+        {
+            Owner owner = null;
+            owner = await GetOwner(id);
+            if (owner == null)
+                return false;
+            return true;
         }
 
         #endregion

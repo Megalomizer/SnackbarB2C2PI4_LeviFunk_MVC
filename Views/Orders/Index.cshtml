@@ -1,0 +1,123 @@
+﻿@using SnackbarB2C2PI4_LeviFunk_ClassLibrary
+@model OrdersVMIndex
+
+@{
+    ViewData["Title"] = "Orders index";
+}
+<div class="TitleWrapper">
+
+    <h1 class="TitleGridItem">Orders</h1>
+
+    <p class="TitleGridItem" id="TitleButtonLocation">
+        <a asp-controller="Orders" asp-action="Create" class="btn btn-primary btn-sm">New Order</a>
+    </p>
+
+</div>
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div>
+        <h4>Favorited Orders</h4>
+        <div class="favOrdersWrapper">
+
+            @if(Model.FavoritedOrders != null)
+            {
+                @foreach (Order order in Model.FavoritedOrders)
+                {
+                    @if (order.Customer.AuthenticationId == Model.ActiveCustomer.AuthenticationId)
+                    {
+                        <div class="card border-succes mb-3" id="favOrdersDisplayed">
+
+                            <div class="card-header">
+                                @order.DateOfOrder
+                            </div>
+
+                            <div class="card-body">
+                                <div class="CardTitleHeight">
+                                    <h5 class="card-title CenteredTitle">
+                                        Price: €@order.Cost
+                                    </h5>
+                                </div>
+
+                                <p>
+                                    Status: @order.Status
+                                </p>
+
+                                <a asp-action="Details" asp-route-id="@order.Id" type="button" class="btn btn-primary ProductDetailsButtonSize">Details</a>
+
+                            </div>
+
+                        </div>
+                    }
+                }
+            }
+            else
+            {
+                <p>You have no favorited orders</p>
+            }
+
+        </div>
+    </div>
+    <div>
+
+        <h4>All Orders</h4>
+        <div class="favOrdersWrapper">
+
+            @if(Model.ListOrders != null)
+            {
+                @foreach(Order order in Model.ListOrders)
+                {
+                    @if(order.Customer.AuthenticationId == Model.ActiveCustomer.AuthenticationId)
+                    {
+                        <div class="card border-succes mb-3" id="favOrdersDisplayed">
+
+                            <div class="card-header">
+                                @order.DateOfOrder
+                            </div>
+
+                            <div class="card-body">
+                                <div class="CardTitleHeight">
+                                    <h5 class="card-title CenteredTitle">
+                                        Price: €@order.Cost
+                                    </h5>
+                                </div>
+
+                                <p>
+                                    Status: @order.Status
+                                </p>
+
+                                <a asp-action="Details" asp-route-id="@order.Id" type="button" class="btn btn-primary ProductDetailsButtonSize">Details</a>
+
+                            </div>
+
+                        </div>
+                    }
+                }
+            }
+            else
+            {
+                <p>
+                    You don't have any orders saved
+                </p>
+            }
+
+        </div>
+
+    </div>
+}
+else
+{
+    <div>
+        <h4>Favorited Orders</h4>
+        <p>
+            Log in to be able to favorite your orders!
+        </p>
+    </div>
+    <div>
+        <h4>All Orders</h4>
+        <p>
+            Log in to be able to save your orders!
+        </p>
+    </div>
+}

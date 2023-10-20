@@ -37,17 +37,22 @@ body {
 }
 
 .flex-parent-element {
-    display: flex;
+    display: grid;
+    grid-template-columns: 45% 55%;
 }
 
 .flex-child-element {
-    flex: 1;
+    display: inline-grid;
     margin: 10px;
-    width: 50%;
+    width: 90%;
 }
 
 .flex-child-element:first-child{
     margin-right: 20px;
+}
+
+#flex-child-last-element{
+    right: 0;
 }
 
 .ListElement {
@@ -73,4 +78,220 @@ body {
 .CenteredTitle {
     width: 100%;
     text-align:center;
+}
+
+#buttonLower {
+    margin-top: 20px;
+}
+
+#CenteredImg {
+    margin-top: 10%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+    height: fit-content;
+}
+
+.ProductDetailsImgSize {
+    min-width: 250px;
+    max-width: 550px;
+    min-height: auto;
+    max-height: auto;
+}
+
+#ProductDetailDescriptionCards {
+    width: 40rem;
+    height: fit-content;
+    min-height: 5rem;
+}
+
+.borderBody {
+    margin: 60px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 60px;
+}
+
+.borderGradient {
+    font-size: 1.6rem;
+    display: grid;
+    place-items: center;
+    min-height: 200px;
+    border: 8px solid;
+    padding: 1rem;
+}
+
+.fullBorder {
+    border-image: linear-gradient(45deg, black, white) 1;
+}
+
+.sidesHorizontalBorder {
+    border-image: linear-gradient(to left, black, white) 1 0;
+}
+
+.sidesVerticalBorder {
+    border-image: linear-gradient(to bottom, black, white) 0 1;
+}
+
+.GridCards {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+}
+
+#GridCardItems {
+    max-width: 20rem;
+    display: inline-grid;
+}
+
+#CardsMaxWidth {
+    max-width: 20rem;
+}
+
+.cardImg {
+    display: block;
+    max-width: 16rem;
+    max-height: 200px;
+    width: contain;
+    height: contain;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: 20%;
+    margin-left: auto;    
+}
+
+.cardButtons {
+    margin-top: 3em;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.cardbutton {
+    display: inline-grid;
+}
+
+.CardTitleHeight {
+    height: 2rem;
+}
+
+.CardImgHeight {
+    height: 200px;
+}
+
+.ProductDetailsButtonSize {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2em;
+    width: 18rem;
+}
+
+.favOrdersWrapper {
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    margin-top: 3em;
+}
+
+#favOrdersDisplayed {
+    display: inline-grid;
+    max-width: 20em;
+}
+
+.TitleWrapper {
+    display: grid;
+    grid-template-columns: 75% 25%;
+    margin-bottom: 3em;
+}
+
+.TitleGridItem {
+    display: inline-grid;
+}
+
+#TitleButtonLocation {
+    text-align: right;
+    width: fit-content;
+    height: fit-content;
+}
+
+.AddProductToOrderWrapper {
+    display: grid;
+    grid-template-columns: 70% 30%;
+}
+
+.AddProductToOrderElement {
+    display: inline-grid;
+}
+
+.AddProductToOrderElement:first-child{
+    margin-right: 20px;
+}
+
+.AddProductButtonsWrapper {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.AddProductButtonsElement {
+    display: inline-grid;
+    max-width: 5rem;
+}
+
+.GridCardsOrderCreate {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    margin: 0;
+}
+
+#GridCardItemsOrderCreate {
+    max-width: 20rem;
+    margin-right: 20px;
+    display: inline-grid;
+}
+
+.TableInGridHeight {
+    height: 4em;
+}
+
+#CardsMaxWidthOrderCreate {
+    max-width: 15rem;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.AddProductButtonsElementSize {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2em;
+    height: fit-content;
+}
+
+.CardImgSizes {
+    display: block;
+    max-width: 12.5rem;
+    max-height: 200px;
+    width: contain;
+    margin-top: auto;
+    margin-right: auto;
+    margin-bottom: 10%;
+    margin-left: auto;
+}
+
+#TitleWrapperOrderCreateMaxHeight {
+    max-height: fit-content;
+}
+
+.CompleteTransactionWrapper {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.CompleteTransactionElement {
+    display: inline-grid;
+}
+
+.CompleteTransactionElement:first-child{
+    margin-right: 10px;
+}
+
+.formButtons {
+    margin-top: 3em;
 }

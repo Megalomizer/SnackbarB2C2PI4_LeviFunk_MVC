@@ -1,0 +1,120 @@
+﻿@using SnackbarB2C2PI4_LeviFunk_ClassLibrary
+@model OrdersVMCreate
+
+@{
+    ViewData["Title"] = "Create Order products";
+}
+
+<div class="TitleWrapper" id="TitleWrapperOrderCreateMaxHeight">
+    <h1 class="TitleGridItem">Add products to a new order</h1>
+    <div class="TitleGridItem" id="TitleButtonLocation">
+        <a asp-controller="Orders" asp-action="Index" class="btn btn-primary">Back to List</a>
+    </div>
+</div>
+
+<hr/>
+
+<div class="AddProductToOrderWrapper">
+
+    <div class="AddProductToOrderElement">
+        <div class="GridCardsOrderCreate">
+            @foreach(Product product in Model.AllProducts)
+            {
+                <div class="card border-primary mb-3" id="GridCardItemsOrderCreate">
+
+                    <div class="card-header">
+                        @product.Name
+                    </div>
+
+                    <div class="card-body" id="CardsMaxWidthOrderCreate">
+                        
+                        <div class="CardTitleHeight">
+                            <h5 class="card-title CenteredTitle">
+                                Price: €@product.Price
+                            </h5>
+                        </div>
+
+                        <div class="CardImgHeight">
+                            <img src="~/images/@product.ImgPath" class="CardImgSizes" />
+                        </div>
+
+                        <div class="AddProductButtonsWrapper">
+                            <div class="AddProductButtonsElement">
+                                <a asp-controller="Orders" asp-action="AddProductToOrderProductsList" asp-route-id="@product.Id" class="btn btn-success AddProductButtonsElementSize">+</a>
+                            </div>
+                            <div class="AddProductButtonsElement">
+                                <a asp-controller="Orders" asp-action="RemoveProductFromOrderProductsList" asp-route-id="@product.Id" class="btn btn-danger AddProductButtonsElementSize">-</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            }
+        </div>
+    </div>
+
+    <div class="AddProductToOrderElement">
+        <div class="TableInGridHeight">
+            <div class="AddProductButtonsWrapper">
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="AddProductButtonsElement">
+                        <a asp-controller="Orders" asp-action="SaveNewOrder" class="btn btn-primary btn-sm">Save & Continue</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="AddProductButtonsElement">
+                        <a asp-controller="Orders" asp-action="SaveNewOrder" class="btn btn-primary btn-sm">Continue</a>
+                    </div>
+                }
+
+                <div class="AddProductButtonsElement">
+                    <a asp-controller="Orders" asp-action="CancelNewOrder" class="btn btn-primary btn-sm">Cancel</a>
+                </div>
+
+            </div>
+
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price per item</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (Product product in Model.Products)
+                    {
+                        <tr>
+
+                            <td>
+                                @Html.DisplayName(product.Name)
+                            </td>
+
+                            <td>
+                                €@Html.DisplayName(product.Price.ToString())
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+
+        
+
+    </div>
+
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

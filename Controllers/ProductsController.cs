@@ -29,7 +29,13 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Controllers
         {
             //IList<Product> products = await _context.Products.ToListAsync();
             IEnumerable<Product> products = await apiService.GetProducts();
-            return View(products);
+
+            ProductsVMIndex productsVMIndex = new ProductsVMIndex()
+            {
+                Products = products.ToList(),
+            };
+
+            return View(productsVMIndex);
         }
 
         // GET: Products/Details/5

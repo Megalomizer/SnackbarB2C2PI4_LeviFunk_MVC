@@ -5,21 +5,11 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>@Model.Name</h1>
+<h1 class="CenteredTitle">@Model.Name</h1>
 
 <div class="flex-parent-element">    
     <div class="flex-child-element">
 
-        <div class="ListElement">
-
-            <h3>
-                Description:
-            </h3>
-            <p class="lead" id="Description">
-                @Model.Description
-            </p>
-
-        </div>
 
         <div class="ListElement">
             <h3>
@@ -48,12 +38,25 @@
             </p>
         </div>
 
+        <div class="card bg-secondary mb-3" id="ProductDetailDescriptionCards">
+            <div class="card-header">
+                <h4 class="card-title">
+                    Description
+                </h4>
+            </div>
+            <div class="card-body">
+                <p class="card-text">
+                    @Model.Description
+                </p>
+            </div>
+        </div>
+
     </div>
 
-    <div class="flex-child-element">
+    <div class="flex-child-element" id="flex-child-last-element">
 
-        <div>
-            <img src="~/images/@Model.ImgPath" alt="Stock_Photo" />
+        <div class="borderBody fullBorder borderGradient" id="CenteredImg">
+            <img class="ProductDetailsImgSize" src="~/images/@Model.ImgPath" alt="Stock_Photo" />
         </div>
 
     </div>

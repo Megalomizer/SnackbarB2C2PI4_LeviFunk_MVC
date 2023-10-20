@@ -1,0 +1,75 @@
+﻿@using SnackbarB2C2PI4_LeviFunk_ClassLibrary
+@model OrdersVMCreateTransaction
+
+@{
+    ViewData["Title"] = "Transform to Transaction";
+}
+
+<h1 class="CenteredTitle">Complete Order Placement</h1>
+
+<div class="CompleteTransactionWrapper">
+
+    <div class="CompleteTransactionElement">
+        <!--A list of data-->
+        <form asp-controller="Orders" asp-action="SaveTransaction">
+            <input type="hidden" asp-for="Transaction.Id" value="@Model.Transaction.Id" />
+            <input type="hidden" asp-for="Transaction.Order" value="@Model.Transaction.Order" />
+
+            <div class="form-group">
+                <label class="form-label mt-4">Total cost</label>
+                <input asp-for="Transaction.Cost" class="form-control" id="readOnlyInput" type="text" placeholder="€@Model.Transaction.Cost" readonly="" />
+            </div>
+
+            <div class="form-group">
+                <label class="form-label mt-4">Total discount</label>
+                <input asp-for="Transaction.Discount" class="form-control" id="readOnlyInput" type="text" placeholder="€@Model.Transaction.Discount" readonly="" />
+            </div>
+
+            @if(Model.Transaction.Customer != null)
+            {
+                <div class="form-group">
+                    <label class="form-label mt-4">Customer name</label>
+                    <input class="form-control" id="readOnlyInput" type="text" placeholder="@Model.Transaction.Customer.FirstName @Model.Transaction.Customer.LastName" readonly="" />
+                    <input type="hidden" asp-for="Transaction.Customer" value="@Model.Transaction.Customer"/>
+                </div>
+            }
+
+            <div class="form-group formButtons">
+                <input type="submit" value="Place Order" class="btn btn-primary" />
+                <input type="button" value="Cancel Order" asp-controller="Orders" asp-action="Index" class="btn btn-primary" />
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="CompleteTransactionElement">
+        <!--A list of all products-->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price per item</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(Product product in Model.Products)
+                {
+                    <tr>
+
+                        <td>
+                            @product.Name
+                        </td>
+
+                        <td>
+                            @product.Price
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+</div>

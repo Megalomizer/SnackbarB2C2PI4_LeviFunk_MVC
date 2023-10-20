@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace SnackbarB2C2PI4_LeviFunk_MVC.Migrations
+namespace SnackbarB2C2PI4_LeviFunk_MVC.Data.MigrationsLibrary
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -20,7 +20,8 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AuthenticationId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

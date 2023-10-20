@@ -9,18 +9,18 @@ using SnackbarB2C2PI4_LeviFunk_MVC.Data;
 
 #nullable disable
 
-namespace SnackbarB2C2PI4_LeviFunk_MVC.Migrations
+namespace SnackbarB2C2PI4_LeviFunk_MVC.Data.MigrationsLibrary
 {
     [DbContext(typeof(LibraryDbContext))]
-    [Migration("20231007185527_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231020112138_OrderIDUpdate1")]
+    partial class OrderIDUpdate1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("ProductVersion", "7.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -55,13 +55,16 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Migrations
                     b.ToTable("OwnerProduct");
                 });
 
-            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Customer", b =>
+            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AuthenticationId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -83,16 +86,17 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Order", b =>
+            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Order", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<decimal>("Cost")
                         .HasPrecision(10, 2)
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateOfOrder")
@@ -104,7 +108,7 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Migrations
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TransactionId")
+                    b.Property<int?>("TransactionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -114,7 +118,7 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.OrderProduct", b =>
+            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.OrderProduct", b =>
                 {
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
@@ -132,7 +136,7 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Migrations
                     b.ToTable("OrderProducts");
                 });
 
-            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Owner", b =>
+            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Owner", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -159,7 +163,7 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Migrations
                     b.ToTable("Owners");
                 });
 
-            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Product", b =>
+            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -192,7 +196,7 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Transaction", b =>
+            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Transaction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -213,7 +217,8 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Migrations
                     b.Property<int?>("Discount")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderId")
+                    b.Property<int?>("OrderId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -225,13 +230,13 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Migrations
 
             modelBuilder.Entity("CustomerProduct", b =>
                 {
-                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Customer", null)
+                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Customer", null)
                         .WithMany()
                         .HasForeignKey("CustomersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Product", null)
+                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -240,56 +245,53 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Migrations
 
             modelBuilder.Entity("OwnerProduct", b =>
                 {
-                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Owner", null)
+                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Owner", null)
                         .WithMany()
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Product", null)
+                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Order", b =>
+            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Order", b =>
                 {
-                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Customer", "Customer")
+                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Customer", "Customer")
                         .WithMany("Orders")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
-                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Transaction", "Transaction")
+                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Transaction", "Transaction")
                         .WithOne("Order")
-                        .HasForeignKey("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Order", "Id")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Order", "Id")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Customer");
 
                     b.Navigation("Transaction");
                 });
 
-            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.OrderProduct", b =>
+            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.OrderProduct", b =>
                 {
-                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Order", null)
+                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Order", null)
                         .WithMany()
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Product", null)
+                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Transaction", b =>
+            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Transaction", b =>
                 {
-                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Customer", "Customer")
+                    b.HasOne("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Customer", "Customer")
                         .WithMany("Transactions")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -298,14 +300,14 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Customer", b =>
+            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Customer", b =>
                 {
                     b.Navigation("Orders");
 
                     b.Navigation("Transactions");
                 });
 
-            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Models.Transaction", b =>
+            modelBuilder.Entity("SnackbarB2C2PI4_LeviFunk_ClassLibrary.Transaction", b =>
                 {
                     b.Navigation("Order");
                 });

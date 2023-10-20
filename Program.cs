@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SnackbarB2C2PI4_LeviFunk_MVC.Controllers;
 using SnackbarB2C2PI4_LeviFunk_MVC.Data;
 using System.Net.Http.Headers;
 
@@ -63,7 +64,6 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC
             app.MapRazorPages();
 
             app.Run();
-
         }
     }
 }

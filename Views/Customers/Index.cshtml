@@ -1,0 +1,60 @@
+﻿@using SnackbarB2C2PI4_LeviFunk_ClassLibrary
+@model CustomersVMIndex
+
+@{
+    ViewData["Title"] = "MyProfile Home";
+}
+
+<h1 class="CenteredTitle">
+    @Model.Customer.FirstName @Model.Customer.LastName
+</h1>
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <div class="form-group">
+            <label class="form-label mt-4" for="readOnlyInput">
+                Email
+            </label>
+            <p class="form-control">
+                @Model.Customer.Email
+            </p>
+        </div>
+
+        @if(Model.Customer.Phone != null)
+        {
+            <div class="form-group">
+                <label class="form-label mt-4" for="readOnlyInput">
+                    Phone
+                </label>
+                <p class="form-control">
+                    @Model.Customer.Phone
+                </p>
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                <label class="form-label mt-4" for="readOnlyInput">
+                    Phone
+                </label>
+                <p class="form-control">
+                    You have not entered a phone number
+                </p>
+            </div>
+        }        
+
+    </div>
+
+</div>
+
+
+<div id="buttonLower">
+    <a asp-controller="Customers" asp-action="Edit" asp-route-id="@Model.Customer.Id" class="btn btn-primary">
+        Edit
+    </a>
+    <a asp-asp-controller="Customers" asp-action="Delete" asp-route-id="@Model.Customer.Id" class="btn btn-primary">
+        Delete Profile
+    </a>
+</div>
