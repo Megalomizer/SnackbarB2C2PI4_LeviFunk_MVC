@@ -21,35 +21,32 @@
         <h4>Favorited Orders</h4>
         <div class="favOrdersWrapper">
 
-            @if(Model.FavoritedOrders != null)
+            @if(Model.FavoritedOrders != null || Model.FavoritedOrders.Count <= 0)
             {
                 @foreach (Order order in Model.FavoritedOrders)
                 {
-                    @if (order.Customer.AuthenticationId == Model.ActiveCustomer.AuthenticationId)
-                    {
-                        <div class="card border-succes mb-3" id="favOrdersDisplayed">
+                    <div class="card border-succes mb-3" id="favOrdersDisplayed">
 
-                            <div class="card-header">
-                                @order.DateOfOrder
+                        <div class="card-header">
+                            @order.DateOfOrder
+                        </div>
+
+                        <div class="card-body">
+                            <div class="CardTitleHeight">
+                                <h5 class="card-title CenteredTitle">
+                                    Price: €@order.Cost
+                                </h5>
                             </div>
 
-                            <div class="card-body">
-                                <div class="CardTitleHeight">
-                                    <h5 class="card-title CenteredTitle">
-                                        Price: €@order.Cost
-                                    </h5>
-                                </div>
+                            <p>
+                                Status: @order.Status
+                            </p>
 
-                                <p>
-                                    Status: @order.Status
-                                </p>
-
-                                <a asp-action="Details" asp-route-id="@order.Id" type="button" class="btn btn-primary ProductDetailsButtonSize">Details</a>
-
-                            </div>
+                            <a asp-controller="Orders" asp-action="Details" asp-route-id="@order.Id" type="button" class="btn btn-primary ProductDetailsButtonSize">Details</a>
 
                         </div>
-                    }
+
+                    </div>
                 }
             }
             else
@@ -64,35 +61,32 @@
         <h4>All Orders</h4>
         <div class="favOrdersWrapper">
 
-            @if(Model.ListOrders != null)
+            @if (Model.ListOrders != null || Model.FavoritedOrders.Count <= 0)
             {
                 @foreach(Order order in Model.ListOrders)
                 {
-                    @if(order.Customer.AuthenticationId == Model.ActiveCustomer.AuthenticationId)
-                    {
-                        <div class="card border-succes mb-3" id="favOrdersDisplayed">
+                    <div class="card border-succes mb-3" id="favOrdersDisplayed">
 
-                            <div class="card-header">
-                                @order.DateOfOrder
+                        <div class="card-header">
+                            @order.DateOfOrder
+                        </div>
+
+                        <div class="card-body">
+                            <div class="CardTitleHeight">
+                                <h5 class="card-title CenteredTitle">
+                                    Price: €@order.Cost
+                                </h5>
                             </div>
 
-                            <div class="card-body">
-                                <div class="CardTitleHeight">
-                                    <h5 class="card-title CenteredTitle">
-                                        Price: €@order.Cost
-                                    </h5>
-                                </div>
+                            <p>
+                                Status: @order.Status
+                            </p>
 
-                                <p>
-                                    Status: @order.Status
-                                </p>
-
-                                <a asp-action="Details" asp-route-id="@order.Id" type="button" class="btn btn-primary ProductDetailsButtonSize">Details</a>
-
-                            </div>
+                            <a asp-action="Details" asp-route-id="@order.Id" type="button" class="btn btn-primary ProductDetailsButtonSize">Details</a>
 
                         </div>
-                    }
+
+                    </div>
                 }
             }
             else

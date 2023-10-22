@@ -11,9 +11,9 @@
 
     <div class="CompleteTransactionElement">
         <!--A list of data-->
-        <form asp-controller="Orders" asp-action="SaveTransaction">
+        <form asp-controller="Orders" asp-action="SaveTransaction" asp-route-id="@Model.Order.Id">
             <input type="hidden" asp-for="Transaction.Id" value="@Model.Transaction.Id" />
-            <input type="hidden" asp-for="Transaction.Order" value="@Model.Transaction.Order" />
+            <input type="hidden" asp-for="Transaction.OrderId" value="@Model.Transaction.OrderId" />
 
             <div class="form-group">
                 <label class="form-label mt-4">Total cost</label>

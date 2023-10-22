@@ -3,6 +3,8 @@ using NuGet.Protocol;
 using SnackbarB2C2PI4_LeviFunk_ClassLibrary;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace SnackbarB2C2PI4_LeviFunk_MVC.Data
 {
@@ -162,15 +164,41 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Data
         }
 
         /// <summary>
+        /// Get a list of all orders from a customer
+        /// </summary>
+        /// <returns>List(Order)</returns>
+        public async Task<IEnumerable<Order>> GetOrders(int id)
+        {
+            List<Order>? orders = null;
+
+            HttpResponseMessage response = await _client.GetAsync("api/Orders/CustomerOrders/" + id.ToString());
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Get the result --> its already in json
+                var JsonResponse = response.Content.ReadAsStringAsync().Result;
+
+                // convert from json to list of products
+                orders = JsonConvert.DeserializeObject<List<Order>>(JsonResponse);
+            }
+
+            if (orders == null)
+                orders = new List<Order>();
+
+            return orders;
+        }
+
+        /// <summary>
         /// Get a specific order based on Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Order</returns>
         public async Task<Order> GetOrder(int? id)
         {
+            // Get the order
             Order? order = null;
 
-            HttpResponseMessage response = await _client.GetAsync("api/Orders/" + id.ToString());
+            HttpResponseMessage response = await _client.GetAsync("api/Orders/SpecificOrder/" + id.ToString());
 
             if (response.IsSuccessStatusCode)
             {
@@ -180,6 +208,20 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Data
 
             if (order == null)
                 order = new Order();
+
+            // Get orderProducts
+            IEnumerable<OrderProduct> orderProducts = await GetOrderProducts(order.Id);
+            List<Product> products = new List<Product>();
+            foreach(OrderProduct op in orderProducts)
+            {
+                for(int i = 0; i < op.Amount; i++)
+                {
+                    Product product = await GetProduct(op.ProductId);
+                    products.Add(product);
+                }
+            }
+
+            order.Products = products;
 
             return order;
         }
@@ -209,7 +251,7 @@ namespace SnackbarB2C2PI4_LeviFunk_MVC.Data
         public async Task<Order> UpdateOrder(Order order, int id)
         {
             // Update order
-            var orderJson = order.ToJson();
+            var orderJson = JsonConvert.SerializeObject(order);
             HttpContent content = new StringContent(orderJson, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await _client.PutAsync("api/Orders/" + id.ToString(), content);
